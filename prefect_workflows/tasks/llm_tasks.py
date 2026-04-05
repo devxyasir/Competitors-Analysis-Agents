@@ -91,7 +91,6 @@ Target: <target audience>
 
 @task(
     name="synthesize_market_understanding",
-    cache_policy=task_input_hash,
     cache_expiration=timedelta(days=1),
 )
 def synthesize_market_understanding(
