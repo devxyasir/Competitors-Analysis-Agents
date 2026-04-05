@@ -1,0 +1,46 @@
+# Prefect Deployment Configuration
+# Generated for competitor analysis workflows
+
+name: competitor-analysis
+
+# Build configuration - install dependencies
+build:
+  - prefect.actions.build_docker_image:
+      dockerfile: auto
+  - prefect.actions.run_shell_script:
+      script: pip install -r requirements.txt
+
+# Push configuration
+push:
+  - prefect.actions.push_docker_image
+
+# Pull configuration - install requirements on run
+pull:
+  - prefect.actions.run_shell_script:
+      script: pip install beautifulsoup4 httpx pydantic python-dotenv
+
+# Deployment definitions
+deployments:
+  - name: market-discovery-flow
+    entrypoint: prefect_workflows/flows/market_discovery.py:market_discovery_flow
+    description: Multi-seed market discovery with human-in-the-loop checkpoints
+    
+    # Work pool - use 'prefect-cloud' managed pool
+    work_pool:
+      name: managed-pool
+      
+    # Schedule (optional)
+    # schedule: null
+    
+    # Parameters
+    parameters:
+      seed_products: []
+      scope_config: {}
+      breadth: "balanced"
+      limits: {}
+    
+    # Enforce parameter schema
+    enforce_parameter_schema: false
+    
+    # Concurrency limit
+    concurrency_limit: 10
