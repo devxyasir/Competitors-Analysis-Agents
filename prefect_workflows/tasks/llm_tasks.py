@@ -44,12 +44,11 @@ from prefect_workflows.models import (
 
 @task(
     name="analyze_seed_product",
-    cache_policy=task_input_hash,
     cache_expiration=timedelta(days=7),
     retries=2,
     retry_delay_seconds=5,
 )
-def analyze_seed_product(
+async def analyze_seed_product(
     seed: SeedProduct,
     provider: str = DEFAULT_PROVIDER
 ) -> SeedProfile:
