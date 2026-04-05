@@ -85,7 +85,7 @@ Target: <target audience>
 """
     
     # Call LLM
-    response = _call_llm(prompt, provider)
+    response = await _call_llm(prompt, provider)
     
     # Parse response
     profile = _parse_seed_profile(response, seed)
@@ -98,7 +98,7 @@ Target: <target audience>
     name="synthesize_market_understanding",
     cache_expiration=timedelta(days=1),
 )
-def synthesize_market_understanding(
+async def synthesize_market_understanding(
     seed_profiles: list[SeedProfile],
     provider: str = DEFAULT_PROVIDER
 ) -> MarketSynthesis:
@@ -140,7 +140,7 @@ Keywords: <keywords>
 Not This: <exclusions>
 """
     
-    response = _call_llm(prompt, provider)
+    response = await _call_llm(prompt, provider)
     
     return _parse_market_synthesis(response)
 
@@ -151,10 +151,9 @@ Not This: <exclusions>
 
 @task(
     name="generate_search_directions",
-    cache_policy=task_input_hash,
     cache_expiration=timedelta(days=1),
 )
-def generate_search_directions(
+async def generate_search_directions(
     seed_profiles: list[SeedProfile],
     market_synthesis: MarketSynthesis,
     breadth: SearchBreadth,
@@ -206,7 +205,7 @@ Rationale: <why>
 ---
 """
     
-    response = _call_llm(prompt, provider)
+    response = await _call_llm(prompt, provider)
     
     return _parse_search_directions(response)
 
@@ -217,11 +216,10 @@ Rationale: <why>
 
 @task(
     name="classify_candidate",
-    cache_policy=task_input_hash,
     cache_expiration=timedelta(days=30),
     retries=2,
 )
-def classify_candidate(
+async def classify_candidate(
     candidate: Candidate,
     seed_profiles: list[SeedProfile],
     provider: str = DEFAULT_PROVIDER
@@ -273,7 +271,7 @@ Matching: <features>
 Contrasting: <features>
 """
     
-    response = _call_llm(prompt, provider)
+    response = await _call_llm(prompt, provider)
     
     return _parse_classification(response, candidate)
 
