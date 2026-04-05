@@ -1,24 +1,25 @@
 """
-LLM Tasks - AI-Powered Analysis
+LLM Tasks - AI Agent Integration
 
 Prefect tasks for LLM calls with caching and retry policies.
 """
 
 from datetime import timedelta
-from typing import Optional
+from typing import List, Optional
+
 from prefect import task, get_run_logger
 from prefect.tasks import task_input_hash
+from prefect.concurrency.asyncio import concurrency
 
+# Import existing agents
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
+from agents.ai_agent import deep_crawl, LONGCAT_API_KEY, FMXDNS_API_KEY
 
-from agents.ai_agent import (
-    _openai_complete,
-    _ollama_complete,
-    _groq_complete,
-    DEFAULT_PROVIDER,
-)
+# Define DEFAULT_PROVIDER locally
+DEFAULT_PROVIDER = "longcat" if LONGCAT_API_KEY else "fmxdns" if FMXDNS_API_KEY else "longcat"
+
 from prefect_workflows.models import (
     SeedProduct,
     SeedProfile,
