@@ -1,11 +1,14 @@
 # Prefect Deployment Configuration
 name: competitor-analysis
 
-# Pull step - clone from GitHub using HTTPS
+# Pull step - clone from GitHub using HTTPS and install deps
 pull:
   - prefect.deployments.steps.git_clone:
       repository: https://github.com/devxyasir/Competitors-Analysis-Agents.git
       branch: main
+  - prefect.deployments.steps.run_shell_script:
+      id: install-deps
+      script: pip install -r requirements.txt
 
 # Deployment definitions
 deployments:
