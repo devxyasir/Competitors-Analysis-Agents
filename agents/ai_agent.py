@@ -366,3 +366,17 @@ async def discover_competitors(target_name: str, target_domain: str, provider: s
     except Exception as e:
         print(f"  [ERROR] Competitor discovery failed: {e}")
         return []
+
+
+# LLM Provider helper functions for Prefect workflows (longcat & fmxdns only)
+async def _call_llm(prompt: str, provider: str = "longcat") -> str:
+    """Call LLM API (longcat or fmxdns) and return completion."""
+    client = get_client(provider)
+    model = "gpt-4o" if provider == "longcat" else "llama-3.1-8b"
+    
+    response = await client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.2
+    )
+    return response.choices[0].message.content.strip()

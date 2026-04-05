@@ -15,7 +15,12 @@ from prefect.concurrency.asyncio import concurrency
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
-from agents.ai_agent import deep_crawl, LONGCAT_API_KEY, FMXDNS_API_KEY
+from agents.ai_agent import (
+    deep_crawl,
+    LONGCAT_API_KEY,
+    FMXDNS_API_KEY,
+    _call_llm,
+)
 
 # Define DEFAULT_PROVIDER locally
 DEFAULT_PROVIDER = "longcat" if LONGCAT_API_KEY else "fmxdns" if FMXDNS_API_KEY else "longcat"
@@ -276,16 +281,6 @@ Contrasting: <features>
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
-
-def _call_llm(prompt: str, provider: str = DEFAULT_PROVIDER) -> str:
-    """Call the appropriate LLM provider."""
-    if provider == "openai":
-        return _openai_complete(prompt)
-    elif provider == "groq":
-        return _groq_complete(prompt)
-    else:  # ollama / longcat / fmxdns
-        return _ollama_complete(prompt, provider)
-
 
 def _parse_seed_profile(response: str, seed: SeedProduct) -> SeedProfile:
     """Parse LLM response into SeedProfile."""
