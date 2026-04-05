@@ -7,7 +7,7 @@ deployments:
     entrypoint: prefect_workflows/flows/market_discovery.py:market_discovery_flow
     description: Multi-seed market discovery with human-in-the-loop checkpoints
     work_pool:
-      name: managed-pool
+      name: default-work-pool
     parameters:
       seed_products: []
       scope_config: {}
