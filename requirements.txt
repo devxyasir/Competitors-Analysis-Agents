@@ -1,0 +1,14 @@
+motor
+pymongo
+dnspython
+python-dotenv
+beautifulsoup4
+fastapi
+uvicorn
+sse-starlette
+pydantic
+pandas
+openpyxl
+httpx
+asyncio
+prefect>=3.0.0
