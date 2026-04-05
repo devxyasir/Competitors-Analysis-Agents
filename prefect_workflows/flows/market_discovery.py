@@ -66,6 +66,12 @@ from prefect_workflows.tasks.data_tasks import (
     name="market_discovery",
     description="Multi-seed market discovery with human-in-the-loop checkpoints",
     log_prints=True,
+    pip_packages=[
+        "beautifulsoup4",
+        "httpx",
+        "pydantic",
+        "python-dotenv",
+    ],
 )
 async def market_discovery_flow(
     seed_products: list[SeedProduct],
