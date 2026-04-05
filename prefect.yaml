@@ -1,6 +1,12 @@
 # Prefect Deployment Configuration
 name: competitor-analysis
 
+# Pull step - clone from GitHub using HTTPS
+pull:
+  - prefect.deployments.steps.git_clone:
+      repository: https://github.com/devxyasir/Competitors-Analysis-Agents.git
+      branch: main
+
 # Deployment definitions
 deployments:
   - name: market-discovery-flow
