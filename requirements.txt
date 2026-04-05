@@ -12,3 +12,8 @@ openpyxl
 httpx
 asyncio
 prefect>=3.0.0
+prefect
+beautifulsoup4
+requests
+openai
+langchain
