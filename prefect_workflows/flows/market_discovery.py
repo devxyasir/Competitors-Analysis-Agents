@@ -135,7 +135,8 @@ async def market_discovery_flow(
         
         # Analyze seeds in parallel
         logger.info(f"Analyzing {len(seed_products)} seed products")
-        seed_profiles = await analyze_seed_product.map(seed_products)
+        futures = analyze_seed_product.map(seed_products)
+        seed_profiles = await asyncio.gather(*futures)
         state.seed_profiles = list(seed_profiles)
         
         # Synthesize market understanding
