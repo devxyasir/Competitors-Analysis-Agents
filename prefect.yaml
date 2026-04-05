@@ -8,7 +8,7 @@ pull:
       branch: main
   - prefect.deployments.steps.run_shell_script:
       id: install-deps
-      script: pip install -r ../../requirements.txt
+      script: pip install motor pymongo dnspython python-dotenv beautifulsoup4 fastapi uvicorn sse-starlette pydantic pandas openpyxl httpx prefect requests openai langchain beautifulsoup4 asyncio
 
 # Deployment definitions
 deployments:
